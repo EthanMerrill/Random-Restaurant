@@ -1,7 +1,15 @@
+.card{
+    background-color: #f3d2c1;
+    padding:30px 50px 30px 50px;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: #001858;
+}
+
 #restaurant-idea{
     position: relative;
     margin: auto;
-    width: 50%;
+    width: 100%;
     top:50%;
 
     font-family: Roboto;
@@ -17,7 +25,16 @@
     color: #172C66;
 }
 
-body{
+#restaurant-idea a {
+    color: black;
+}
+
+
+#restaurant-idea a:hover {
+    font-weight: 800;
+}
+
+#main-content{
     background: #FDFFF1;
     height:98vh;
         display:flex;
@@ -25,6 +42,13 @@ body{
     justify-content: center;
 }
 
+.page-title{
+    position: absolute;
+    font-family: Roboto;
+    font-weight: 300;
+    font-size: 1.7em;
+    padding-left: 1em;
+}
 
 .button{
     position: relative;
@@ -36,8 +60,8 @@ body{
     font-size: 20px;
 
     margin-top: 35px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 10px;
+    margin-right: 10px;
     width: 50%;
     /* line-height: 38px; */
     /* or 190% */
@@ -49,6 +73,12 @@ body{
     text-align: center;
 
     color: #001858;
+
+}
+
+.button:hover{
+    transition: .5s;
+    box-shadow: 0 5px 15px -10px rgb(31 18 53 / 60%);
 }
 
 h2.lets-go-title{
@@ -69,6 +99,48 @@ h2.lets-go-title{
 
 a {
     text-decoration: none !important
+}
+
+.fa-info-circle{
+    position:fixed;
+    bottom:20px;
+    right: 20px;
+    font-size: 1.5em;
+}
+#refresh-button{
+    height:25px;
+    width: 25px;
+    justify-content: center;
+}
+
+.button-box{
+    width: 300px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.info{
+    width:300px;
+    position:fixed;
+    bottom:45px;
+    right:45px;
+    box-shadow: 0 5px 15px -10px rgb(31 18 53 / 60%);
+    padding:20px;
+}
+
+.invisible{
+    visibility: hidden;
+}
+
+.info-selected{
+    color:#8bd3dd;
+}
+
+p{
+    font-family: Roboto;
+    font-size: 1em;
 }
 /* 
 #map{

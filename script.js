@@ -157,6 +157,17 @@ function wrap(el, wrapper) {
 async function main() {
     var position = await geoFindMe();
     getOnePlace(position.coords.latitude, position.coords.longitude)
+    document.getElementById('info-circle').addEventListener('click', function(event) {
+        document.getElementById('info-box').classList.toggle('invisible')
+        document.getElementById('info-circle').classList.toggle('info-selected')
+        // document.getElementById('info-box').setAttribute('visibility', 'visible')
+    })
+    document.getElementById('info-circle').addEventListener('mouseover', function (event) {
+        document.getElementById('info-circle').classList.toggle('info-selected')
+    })
+    document.getElementById('info-circle').addEventListener('mouseout', function (event) {
+        document.getElementById('info-circle').classList.toggle('info-selected')
+    })
 }
 main()
 

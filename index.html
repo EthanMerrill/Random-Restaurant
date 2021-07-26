@@ -1,31 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <LINK href="style.css" rel="stylesheet" type="text/css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,700;1,100&display=swap"
-            rel="stylesheet">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEaxDjwE6fqXkgQPic-_cicoa2LT8kAWY&libraries=places"></script>
-    <title>Random Restaurant</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,700;1,100&display=swap"rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+        integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEaxDjwE6fqXkgQPic-_cicoa2LT8kAWY&libraries=places"></script>
+    <title>Let's Just Eat</title>
 </head>
+
 <body>
-    <div id = 'restaurant-rec-card'>
-        <p id="restaurant-idea" class="restaurantIdea">
-</p>    
-        <div class="button" id="lets-go-button">
-            <h2 id = "lets-go-title" class='lets-go-title'>Let's Go!</h2>
+    <h1 class='page-title'>Let's Just Eat Something!</h1>
+    <div id="main-content">
+        <div id='restaurant-rec-card' class='card'>
+            <p id="restaurant-idea" class="restaurantIdea"></p>
+            <div class="button-box">
+            <div class="button" id="lets-go-button">
+                <h2 id="lets-go-title" class='lets-go-title'>Let's Go!</h2>
+            </div>
+            <div class="button" id="refresh-button "onClick="window.location.reload();"><i class="fas fa-sync"></i></div>
+</div>
+            <p id="status"></p>
+            <a id="map-link" target="_blank"></a>
+            <div id="map"></div>
         </div>
-
-        <p id="status"></p>
-        <a id="map-link" target="_blank"></a>
-        <div id="map"></div>
-
-
+    </div>
+    <i id='info-circle' class="fas fa-info-circle"></i>
+    <div id="info-box" class="info card invisible">
+    <p>This site searches for restaurants near your location and selects one at random.</p>
+        
+    <p><a href="https://www.happyhues.co/palettes/17">Color Palette</a></p>
+        <p><a href="https://github.com/EthanMerrill/Random-Restaurant">Github</a></p>
+        <p>Created by Ethan Merrill July 2021</p>
     </div>
 </body>
 <script src="script.js"></script>
+
 </html>
