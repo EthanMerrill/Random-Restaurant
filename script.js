@@ -17,7 +17,9 @@ async function geoFindMe() {
         if (!navigator.geolocation) {
             console.log('Geolocation is not supported by your browser');
         } else {
+            
             navigator.geolocation.getCurrentPosition(position, error)
+
         }
     })
 
@@ -98,7 +100,7 @@ async function geoFindMe() {
 function getOnePlace(lat, long){
 
     const coordinates = { lat: lat, lng: long };
-
+    console.log(coordinates)
     var request = {
         query: 'restaurant',
         openNow: "True",
@@ -111,13 +113,13 @@ function getOnePlace(lat, long){
 
     var service = new google.maps.places.PlacesService(map);
 
-    service.nearbySearch({ location: coordinates, radius: 1000, type: "restaurant" }, (results, status, opening_hours, pagination) =>{
+    service.nearbySearch({ location: coordinates, radius: 25000, type: "restaurant" }, (results, status, opening_hours, pagination) =>{
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             // for (let i = 0; i < results.length; i++) {
             //     console.log(results[i].opening_hours.open_now)
             //     console.log(i)
             // }
-                var i = getRandomArbitrary(0, results.length)
+                var i = getRandomArbitrary(0, results.length-1)
                 console.log(i, results.length)
                 place = results[i]
                 console.log(i, place, results)
