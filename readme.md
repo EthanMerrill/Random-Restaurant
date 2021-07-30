@@ -8,9 +8,9 @@ I built this project to improve my design skills, play with the Google Maps API,
 
 
 # Todo:
-- [ ] Dynamically change from walking to driving depending on route time
+- [x] Dynamically change from walking to driving depending on route time
 - [ ] Adjust the Search radius if no results are found
 - [ ] Only return open establishments
 - [ ] buy domain name (HA!)
-- [ ] Add a title
+- [x] Add a title
 - [ ] Add a share button

@@ -180,11 +180,11 @@ p{
     display: inline-block;
     position: relative; 
     box-shadow: 0px 0px 1.5px hsl(210, 12%, 97%);
-    -webkit-animation-duration: .9s;
-    -webkit-animation-fill-mode: forwards; 
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-name: placeholderShimmer;
-    -webkit-animation-timing-function: linear;
+    animation-duration: .9s;
+    animation-fill-mode: forwards; 
+    animation-iteration-count: infinite;
+    animation-name: placeholderShimmer;
+    animation-timing-function: linear;
 }
 
 
