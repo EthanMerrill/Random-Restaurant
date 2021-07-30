@@ -159,21 +159,53 @@ async function main() {
     var position = await geoFindMe();
     var placesList = await searchNearby(coordinates, 25000)
     var randomNumber = await getRandomArbitrary(0, placesList.length-1)
+    // set the place in the html
+    document.getElementById('restaurant-name').innerHTML = placesList[randomNumber].name
+    document.getElementById('restaurant-name').classList.toggle('loading-field')
+    document.getElementById('restaurant-name').setAttribute('style', "width:auto")
+    // update the address
+    document.getElementById('vicinity').innerHTML = `at ${placesList[randomNumber].vicinity}`
+    document.getElementById('vicinity').classList.toggle('loading-field')
+    document.getElementById('at').remove()
 
+    console.log(placesList)
     const travelTimeWalking = await getTravelTimes(originPoint = new google.maps.LatLng(position.coords.latitude, position.coords.longitude), [placesList[randomNumber].vicinity], true)
     var tripinfo 
+    var transportMode 
     // if walking takes less than 20 mins, do that. if longer, get driving directions and use that as the trip info
     if (travelTimeWalking.rows[0].elements[0].duration.value<2400){
         tripinfo = travelTimeWalking
+        transportMode = "Walk"
     } else {
         tripinfo = await getTravelTimes(originPoint = new google.maps.LatLng(position.coords.latitude, position.coords.longitude), [placesList[randomNumber].vicinity], false)
+        transportMode = 'Drive'
     }
+    //update the transport mode and time element
+    document.getElementById('transportationMode').innerHTML = transportMode
+    document.getElementById('transportationMode').classList.toggle('loading-field')
+    document.getElementById('transportationMode').setAttribute('style', "width:auto")
+    // time element set
+    document.getElementById('travelTime').innerHTML =` ${Math.round(tripinfo.rows[0].elements[0].duration.value/60, 0)} `
+    document.getElementById('travelTime').classList.toggle('loading-field')
+    document.getElementById('travelTime').setAttribute('style', "width:auto")
+
     var placeSelection = placesList[randomNumber]
     var placeDetails = await getPlaceDetails(placeSelection.place_id)
-    console.log(tripinfo.rows[0].elements[0].duration)
-    document.getElementById('restaurant-idea').innerHTML = `Drive ${tripinfo.rows[0].elements[0].duration.text} to <a href='${placeDetails.website}'><i>${placeSelection.name}</i></a>`
-    console.log(tripinfo.rows[0].elements[0].distance.text)
+    // Update the place text with a link to the website
+    var restaurantLink = document.createElement('a')
+    restaurantLink.setAttribute('style', "width:auto")
+    restaurantLink.href = placeDetails.website
+    wrap(document.getElementById('restaurant-name'), restaurantLink)
 
+    // console.log(tripinfo.rows[0].elements[0].duration)
+    // document.getElementById('restaurant-idea').innerHTML = ''
+    // document.getElementById('restaurant-idea').removeChild('lds-ellipsis')
+    // document.getElementById('restaurant-idea').innerHTML = `${transportMode} ${tripinfo.rows[0].elements[0].duration.text} to <a href='${placeDetails.website}'><i>${placeSelection.name}</i></a>`
+    // console.log(tripinfo.rows[0].elements[0].distance.text)
+    var navLink = document.createElement("a")
+    navLink.href = `https://www.google.com/maps/dir/?api=1&origin=${coordinates.lat}+${coordinates.lng}&destination=${placeSelection.name}&travelmode=${(transportMode=='Walk' ? 'walking' : 'driving')}`
+    navLink.innerHTML = " "
+    wrap(document.getElementById('lets-go-button'), navLink)
     // getOnePlace(position.coords.latitude, position.coords.longitude)
     document.getElementById('info-circle').addEventListener('click', function (event) {
         document.getElementById('info-box').classList.toggle('invisible')

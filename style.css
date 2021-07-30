@@ -1,9 +1,18 @@
 .card{
     background-color: #f3d2c1;
-    padding:30px 50px 30px 50px;
+    padding:30px ;
     border-radius: 5px;
     border-style: solid;
     border-color: #001858;
+}
+
+#restaurant-rec-card{
+    width: 350px;
+    min-height: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 #restaurant-idea{
@@ -20,18 +29,28 @@
     /* or 190% */
 
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    flex-direction: column;
+    justify-content: center;
+    flex-direction: row;
     color: #172C66;
 }
 
+#restaurant-idea *{
+    overflow-wrap: normal;
+    text-align: center;
+}
+
 #restaurant-idea a {
-    color: black;
+    font-weight: 500;
+    color: #172C66;
+    font-style: italic;
 }
 
 
-#restaurant-idea a:hover {
+#restaurant-idea a *:hover {
     font-weight: 800;
+    text-decoration: underline;
 }
 
 #main-content{
@@ -62,10 +81,10 @@
     margin-top: 35px;
     margin-left: 10px;
     margin-right: 10px;
-    width: 50%;
+    /* width: 50%; */
     /* line-height: 38px; */
     /* or 190% */
-    width: max-content;
+    /* width: max-content; */
     height: 1.3em;
     padding: 20px ;
     display: flex;
@@ -79,6 +98,7 @@
 .button:hover{
     transition: .5s;
     box-shadow: 0 5px 15px -10px rgb(31 18 53 / 60%);
+    
 }
 
 h2.lets-go-title{
@@ -114,7 +134,7 @@ a {
 }
 
 .button-box{
-    width: 300px;
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -141,9 +161,59 @@ a {
 p{
     font-family: Roboto;
     font-size: 1em;
+    margin:auto;
 }
 /* 
 #map{
     height: 500px;
     width: 500px;;
 } */
+
+/* LOADING CSS */
+.loading-field{
+    height:1em;
+    margin-left: 1em;
+    background: hsl(210, 12%, 97%);
+    background-image: linear-gradient(to right, #f0f3f5 0%, #dcdde0 20%, #f6f7f8 40%, #f6f7f8 60%);
+    background-repeat: no-repeat;
+    background-size: 800px 104px; 
+    display: inline-block;
+    position: relative; 
+    box-shadow: 0px 0px 1.5px hsl(210, 12%, 97%);
+    -webkit-animation-duration: .9s;
+    -webkit-animation-fill-mode: forwards; 
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-name: placeholderShimmer;
+    -webkit-animation-timing-function: linear;
+}
+
+
+@-webkit-keyframes placeholderShimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  
+  100% {
+    background-position: 468px 0; 
+  }
+}
+
+#transportationMode{
+    width: 5em;
+}
+#travelTime{
+    width: 3em;
+    
+}
+#restaurant-name{
+    width:6em;
+}
+
+#vicinity{
+    width:10em;
+}
+
+.restaurantIdea *{
+    margin-left: .2em;
+    margin-right: .2em;
+}
