@@ -1,24 +1,30 @@
 
 //https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
 async function geoFindMe() {
-    return new Promise((position, error) => {
-        // function success(position) {
-        //     const latitude = position.coords.latitude;
-        //     const longitude = position.coords.longitude;
-
-        //     statusElement.textContent = `Success, Latitude: ${latitude}, Longitude: ${longitude}`
-
-        // }
-
-        // function error() {
-        //         statusElement.textContent = 'Unable to retrieve your location';
-        //     }
+    return new Promise((position, showError) => {
+   
+        function showError(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation.")
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location information is unavailable.")
+                    break;
+                case error.TIMEOUT:
+                    alert("The request to get user location timed out.")
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("An unknown error occurred.")
+                    break;
+            }
+        }
 
         if (!navigator.geolocation) {
             console.log('Geolocation is not supported by your browser');
         } else {
 
-            navigator.geolocation.getCurrentPosition(position, error)
+            navigator.geolocation.getCurrentPosition(position, showError(error))
 
         }
     })
@@ -26,54 +32,8 @@ async function geoFindMe() {
 
 }
 
-// Simple location search function
-function getOnePlace(lat, long) {
-
-    const coordinates = { lat: lat, lng: long };
-    var request = {
-        query: 'restaurant',
-        openNow: "True",
-        rankBy: "google.maps.places.RankBy.DISTANCE",
-        fields: ['name', 'geometry', 'opening_hours', 'price_level', 'place_id', 'open_now']
-    };
-
-    const map = new google.maps.Map(
-        document.getElementById('map'), { center: coordinates, zoom: 25 });
 
 
-    var service = new google.maps.places.PlacesService(map);
-
-    service.nearbySearch({ location: coordinates, radius: 25000, type: "restaurant" }, (results, status, opening_hours, pagination) => {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-            // chose a random place
-            var i = getRandomArbitrary(0, results.length - 1)
-            place = results[i]
-            console.log(place.vicinity)
-            // Get place Details
-            var detailsRequest = {
-                placeId: place.place_id,
-                fields: ['name', 'rating', 'website', 'reviews']
-            }
-
-            service = new google.maps.places.PlacesService(map);
-            service.getDetails(detailsRequest, callback);
-            // 
-            function callback(detailedPlace, status) {
-                if (status == google.maps.places.PlacesServiceStatus.OK) {
-
-                    console.log(detailedPlace)
-                    document.getElementById('restaurant-idea').innerHTML = `Go to <a href='${detailedPlace.website}'><i>${detailedPlace.name}</i></a>`
-                    var navLink = document.createElement("a")
-                    navLink.href = `https://www.google.com/maps/dir/?api=1&origin=${coordinates.lat}+${coordinates.lng}&destination=${detailedPlace.name}&travelmode=walking`
-                    navLink.innerHTML = " "
-                    wrap(document.getElementById('lets-go-button'), navLink)
-
-
-                }
-            }
-        }
-    });
-}
 
 var getPlaceDetails = (placeid) => {
     service = new google.maps.places.PlacesService(map); // can refactor to only initialize this once...
