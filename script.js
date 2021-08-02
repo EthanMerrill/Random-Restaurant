@@ -3,7 +3,8 @@
 async function geoFindMe() {
     return new Promise((position, showError) => {
    
-        function showError(error) {
+        function error(err) {
+            console.log(err.code, err.message)
             switch (error.code) {
                 case error.PERMISSION_DENIED:
                     alert("User denied the request for Geolocation.")
@@ -24,7 +25,7 @@ async function geoFindMe() {
             console.log('Geolocation is not supported by your browser');
         } else {
 
-            navigator.geolocation.getCurrentPosition(position, showError(Error))
+            navigator.geolocation.getCurrentPosition(position, error)
 
         }
     })
