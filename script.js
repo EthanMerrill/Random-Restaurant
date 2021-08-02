@@ -24,7 +24,7 @@ async function geoFindMe() {
             console.log('Geolocation is not supported by your browser');
         } else {
 
-            navigator.geolocation.getCurrentPosition(position, showError(error))
+            navigator.geolocation.getCurrentPosition(position, showError(Error))
 
         }
     })
