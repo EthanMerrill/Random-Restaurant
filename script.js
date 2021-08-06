@@ -1,10 +1,9 @@
 
 //https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API
 async function geoFindMe() {
-    return new Promise((position, showError) => {
-   
+    return new Promise((resolve,reject) => {
         function error(err) {
-            console.log(err.code, err.message)
+            // console.log(err.code, err.message)ds
             switch (error.code) {
                 case error.PERMISSION_DENIED:
                     alert("User denied the request for Geolocation.")
@@ -21,19 +20,30 @@ async function geoFindMe() {
             }
         }
 
-        if (!navigator.geolocation) {
-            console.log('Geolocation is not supported by your browser');
-        } else {
+        // if (!navigator.geolocation) {
+        //     console.log('Geolocation is not supported by your browser');
+        // } else {
+  
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                resolve(position)
+            },
+            (err) => {
+                // Failed
+                error(err)
+                reject(err)
+            })
+   
 
-            navigator.geolocation.getCurrentPosition(position, error)
-
-        }
     })
 
 
 }
 
-
+async function locationZip() {
+    var zip = await prompt('please enter your ZIP')
+    return zip
+}
 
 
 var getPlaceDetails = (placeid) => {
@@ -72,10 +82,9 @@ var searchNearby = (location, radius) => {
         }, 2000)
     })
 }
-const coordinates = { lat: 38.8726784, lng: -77.0899968 }
+
 
 //helper functions below:
-
 
 var getTravelTimes = (originPoint, destinationList, walking) => {
     var matrix = new google.maps.DistanceMatrixService();
@@ -116,9 +125,50 @@ function getRandomArbitrary(min, max) {
     return Math.round((Math.random() * (max - min) + min), 0);
 }
 
+function zipToCoords(zip){
+    return new Promise((resolve, reject) => {
+        // const map = new google.maps.Map(document.getElementById('map'));
+        const geocoder = new google.maps.Geocoder()
+        var loc = [];
+        geocoder.geocode({ 'address': zip }, function (results, status) {
+            // and this is function which processes response
+            if (status == google.maps.GeocoderStatus.OK) {
+                loc[0] = results[0].geometry.location.lat();
+                loc[1] = results[0].geometry.location.lng();
+
+                resolve(loc); // the place where loc contains geocoded coordinates
+
+            } else {
+                reject("Geocode was not successful for the following reason: " + status);
+            }
+        // const geocoder = new google.maps.Geocoder()
+        // geocoder
+        //     .geocode({ address: zip })
+        //     .then(({ results }) => {
+        //         console.log(results)
+        //         resolve(results[0]) })
+        //     .catch((e) =>
+        //         reject("Geocode was not successful for the following reason: " + e)
+        //     );
+    })
+})
+
+}
+
+
 async function main() {
-    var position = await geoFindMe();
-    var placesList = await searchNearby(coordinates, 25000)
+    var position
+    try{
+        position = await geoFindMe();
+        position = { lat: position.coords.latitude, lng: position.coords.longitude}
+    }catch{
+        var zip = await locationZip();
+        position = await zipToCoords(zip)
+        console.log(position)
+        position = { lat: position[0], lng: position[1] }
+    }
+    
+    var placesList = await searchNearby(position, 25000)
     var randomNumber = await getRandomArbitrary(0, placesList.length-1)
     // set the place in the html
     document.getElementById('restaurant-name').innerHTML = placesList[randomNumber].name
@@ -128,9 +178,8 @@ async function main() {
     document.getElementById('vicinity').innerHTML = `at ${placesList[randomNumber].vicinity}`
     document.getElementById('vicinity').classList.toggle('loading-field')
     document.getElementById('at').remove()
-
-    console.log(placesList)
-    const travelTimeWalking = await getTravelTimes(originPoint = new google.maps.LatLng(position.coords.latitude, position.coords.longitude), [placesList[randomNumber].vicinity], true)
+    console.log(new google.maps.LatLng(position.lat, position.lng))
+    const travelTimeWalking = await getTravelTimes(originPoint = position, [placesList[randomNumber].vicinity], true)
     var tripinfo 
     var transportMode 
     // if walking takes less than 20 mins, do that. if longer, get driving directions and use that as the trip info
@@ -138,7 +187,7 @@ async function main() {
         tripinfo = travelTimeWalking
         transportMode = "Walk"
     } else {
-        tripinfo = await getTravelTimes(originPoint = new google.maps.LatLng(position.coords.latitude, position.coords.longitude), [placesList[randomNumber].vicinity], false)
+        tripinfo = await getTravelTimes(originPoint = position, [placesList[randomNumber].vicinity], false)
         transportMode = 'Drive'
     }
     //update the transport mode and time element
@@ -163,8 +212,9 @@ async function main() {
     // document.getElementById('restaurant-idea').removeChild('lds-ellipsis')
     // document.getElementById('restaurant-idea').innerHTML = `${transportMode} ${tripinfo.rows[0].elements[0].duration.text} to <a href='${placeDetails.website}'><i>${placeSelection.name}</i></a>`
     // console.log(tripinfo.rows[0].elements[0].distance.text)
+    console.log(position.lat, position)
     var navLink = document.createElement("a")
-    navLink.href = `https://www.google.com/maps/dir/?api=1&origin=${coordinates.lat}+${coordinates.lng}&destination=${placeSelection.name}&travelmode=${(transportMode=='Walk' ? 'walking' : 'driving')}`
+    navLink.href = `https://www.google.com/maps/dir/?api=1&origin=${position.lat}+${position.lng}&destination=${placeSelection.name}&travelmode=${(transportMode=='Walk' ? 'walking' : 'driving')}`
     navLink.innerHTML = " "
     wrap(document.getElementById('lets-go-button'), navLink)
     // getOnePlace(position.coords.latitude, position.coords.longitude)
